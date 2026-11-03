@@ -1,6 +1,9 @@
 #include <iostream>
 #include <cmath>
-#include "s.h"
+#include <string>
+#include <ctime>
+#include <cstdlib>
+#include "xsx.h"
 using namespace std;
 using namespace Area;
 void Header() {
@@ -107,7 +110,7 @@ float NumberRead(string message) {
 	return Number;
 } // <--- ONLY ONE closing brace here!
 
-DifficultyLevel Level(int Choice) {
+DifficultyLevel LevelX(int Choice) {
 
 
 	while (Choice > 5 || Choice < 1) {
@@ -156,6 +159,7 @@ float CorrectAns(char Operator, float Number1, float Number2) {
 }
 
 void Exam(int NumOfQuestions, DifficultyLevel Level, int& CorrectAnswers, int& IncorrectAnswers) {
+
 	float Number1;
 	float Number2;
 	float Number3;
@@ -308,8 +312,8 @@ void Exam(int NumOfQuestions, DifficultyLevel Level, int& CorrectAnswers, int& I
 
 		break;
 
-
 	case DifficultyLevel::VeryHard:
+	{
 		Shape = RandomShape();
 
 		string RandomIfAVPnotknown;
@@ -597,57 +601,54 @@ void Exam(int NumOfQuestions, DifficultyLevel Level, int& CorrectAnswers, int& I
 				}
 
 			}
-		}
+					}
+					break;
+	}
 
+		case DifficultyLevel::Mixed:
 
+			for (int counter = 1;counter <= NumOfQuestions;counter++) {
 
+				Exam(1, LevelX(RandomNumber(1, 4)), CorrectAnswers, IncorrectAnswers);
+
+			}
+			break;
 
 	}
 }
 
-//TextEditorOfAgainWord Function isnt used yet
 
-string TextEditorOfAgainWord(int gamecounter) {
-	if (gamecounter > 1) {
-		return "Again";
-	}
-	else return "";
+	int main() {
+		srand((unsigned)time(NULL));
+		Header();
 
-}
-//TextEditorOfAgainWord Function isnt used yet
+		QuizInfo Quiz;
+		Quiz.CorrectAns = 0;
+		Quiz.FalseAns = 0;
+		int NumOfChoice = NumberRead("Enter Your Choice { 1= (Easy) 2= (Medium) 3= (Hard) 4= (Very Hard) 5= (Mixed) }");
+		DifficultyLevel Choice = LevelX(NumOfChoice);
+		Quiz.NumberOfQuestions = NumberRead("How Many Questions? :");
 
-
-int main() {
-	srand((unsigned)time(NULL));
-	Header();
-
-	QuizInfo Quiz;
-	Quiz.CorrectAns = 0;
-	Quiz.FalseAns = 0;
-	int NumOfChoice = NumberRead("Enter Your Choice { 1= (Easy) 2= (Medium) 3= (Hard) 4= (Very Hard) 5= (Mixed) }");
-	DifficultyLevel Choice = Level(NumOfChoice);
-	Quiz.NumberOfQuestions = NumberRead("How Many Questions? :");
-
-	cout << endl;
-
-
-	int GamesCounter = 0;
-
-
-	int ChoiceToPLay;
-	do {
-
-
-		Exam(Quiz.NumberOfQuestions, Choice, Quiz.CorrectAns, Quiz.FalseAns);
-		GamesCounter++;
 		cout << endl;
-		cout << "Wanna start Playing Again ?  1=yes 0=no ";
-		cin >> ChoiceToPLay;
-
-	} while (ChoiceToPLay == 1);
-
-	cout << endl << "Correct Answers :" << Quiz.CorrectAns;
-	cout << endl << "inCorrect Answers :" << Quiz.FalseAns;
 
 
-}
+		int GamesCounter = 0;
+
+
+		int ChoiceToPLay;
+		do {
+
+
+			Exam(Quiz.NumberOfQuestions, Choice, Quiz.CorrectAns, Quiz.FalseAns);
+			GamesCounter++;
+			cout << endl;
+			cout << "Wanna start Playing Again ?  1=yes 0=no ";
+			cin >> ChoiceToPLay;
+
+		} while (ChoiceToPLay == 1);
+
+		cout << endl << "Correct Answers :" << Quiz.CorrectAns;
+		cout << endl << "inCorrect Answers :" << Quiz.FalseAns;
+
+
+	}
